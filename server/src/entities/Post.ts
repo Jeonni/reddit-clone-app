@@ -2,8 +2,10 @@ import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany }
 import BaseEntity from "./Entity";
 import User from "./User";
 import Sub from "./Sub";
+import Comment from "./Comment";
 import { Exclude, Expose } from "class-transformer";
 import { makeId, slugify } from "../utils/helpers";
+import Vote from "./Vote";
 
 @Entity("posts")
 export default class Post extends BaseEntity {
@@ -52,7 +54,7 @@ export default class Post extends BaseEntity {
     }
 
     @Expose() get voteScore(): number {
-        return this.votes?.reduce((memo, curt) => memo + (curt.val || 0), 0);
+        return this.votes?.reduce((memo, curt) => memo + (curt.value || 0), 0);
     }
 
     protected userVote: number;
