@@ -1,6 +1,9 @@
-import { IsEmail, Length } from "class-validator"
-import { Entity, Column, BaseEntity, Index, OneToMany, BeforeInsert } from "typeorm"
-import bcrypt from 'bcryptjs'
+import { IsEmail, Length } from "class-validator";
+import { Entity, Column, Index, OneToMany, BeforeInsert } from "typeorm";
+import BaseEntity from "./Entity";
+import bcrypt from 'bcryptjs';
+import Post from "./Post";
+import Vote from "./Vote";
 
 
 @Entity("users")
@@ -14,7 +17,7 @@ export default class User extends BaseEntity{
 
     @Index()
     @Length(3, 32, {message: "사용자 이름은 3자 이상이어야 합니다."})
-    @Column()
+    @Column({unique: true})
     username: string;
 
     @Length(6, 255, {message: "비밀번호는 6글자 이상이어야 합니다."})
