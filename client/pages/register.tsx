@@ -1,6 +1,8 @@
+import axios from "axios";
 import InputGroup from "@/components/InputGroup";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
+import { useRouter } from "next/router";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -8,12 +10,33 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
 
+  let router = useRouter();
+  const handleSubmit = async (event: FormEvent) => {
+    // 기존에는 form에 onSubmit 이벤트 발생하면(클릭 시) 페이지가 refresh 된다.
+    // preventDefault() 함수는 페이지 refresh 동작을 막아주는 역할을 한다.
+    event.preventDefault();
+
+    // 비동기 요청 시 try-catch 문으로 잡아준다.
+    try {
+      const res = await axios.post("/auth/register", {
+        email,
+        password,
+        username,
+      });
+      console.log("res", res);
+      router.push("/login");
+    } catch (error: any) {
+      console.log("error", error);
+      setErrors(error.response.data || {});
+    }
+  };
+
   return (
     <div className="bg-white">
       <div className="flex flex-col items-center justify-center h-screen p-6">
         <div className="w-10/12 mx-auto md:w-96">
           <h1 className="mb-2 text-lg font-medium text-black">회원가입</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <InputGroup
               placeholder="Email"
               value={email}
