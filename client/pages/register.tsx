@@ -18,13 +18,13 @@ const Register = () => {
 
     // 비동기 요청 시 try-catch 문으로 잡아준다.
     try {
-      const res = await axios.post("/auth/register", {
+      const res = await axios.post("/auth/register", { // axios 이용하여 post 요청
         email,
         password,
         username,
       });
       console.log("res", res);
-      router.push("/login");
+      // router.push("/login"); // 로그인 페이지로 이동
     } catch (error: any) {
       console.log("error", error);
       setErrors(error.response.data || {});

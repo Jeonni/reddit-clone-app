@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.get("/", (_,res) => res.send("running"));
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes); // authRoute 는 auth 라우터를 이용
 
 let port = 4000; // 백엔드 포트번호
 app.listen(port, async () => {
